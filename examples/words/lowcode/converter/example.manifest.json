@@ -1,0 +1,13 @@
+{
+  "scenario_id": "words-converter",
+  "package_id": "Aspose.Words",
+  "package_version": "26.4.0",
+  "target_framework": "net8.0",
+  "claimed_symbols": [
+    "Aspose.Words.LowCode.Converter",
+    "Aspose.Words.LowCode.Converter.Convert"
+  ],
+  "status": "generated",
+  "input_strategy": "programmatic_input",
+  "input_files": []
+}
