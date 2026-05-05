@@ -25,10 +25,10 @@ Broader generation requires resolving open follow-up taskcards first.
 
 | Example | Demonstrated API | Input | Output | Run |
 |---------|-----------------|-------|--------|-----|
-| `converter` | `Converter` | `docx` | `pdf` | `dotnet run --project examples/words/lowcode/converter` |
-| `replacer` | `Replacer` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/replacer` |
-| `splitter` | `Splitter` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/splitter` |
-| `watermarker` | `Watermarker` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/watermarker` |
+| `converter` | `Converter.Convert` | `docx` | `pdf` | `dotnet run --project examples/words/lowcode/converter` |
+| `replacer` | `Replacer.Replace` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/replacer` |
+| `splitter` | `Splitter.ExtractPages` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/splitter` |
+| `watermarker` | `Watermarker.SetText` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/watermarker` |
 
 
 ---
@@ -89,7 +89,7 @@ These examples are validated by the pipeline before publishing:
 | Example reviewer gate | PASS |
 | Gate verdict | `PR_DRY_RUN_READY` |
 
-Generated on: 2026-05-04 09:23 UTC
+Generated on: 2026-05-05 06:39 UTC
 
 ---
 
