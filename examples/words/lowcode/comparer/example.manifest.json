@@ -1,0 +1,30 @@
+{
+  "scenario_id": "words-comparer",
+  "package_id": "Aspose.Words",
+  "package_version": "26.5.0",
+  "target_framework": "net8.0",
+  "claimed_symbols": [
+    "Aspose.Words.LowCode.Comparer",
+    "Aspose.Words.LowCode.Comparer.Compare",
+    "Aspose.Words.LowCode.Comparer.Compare",
+    "Aspose.Words.LowCode.Comparer.Compare",
+    "Aspose.Words.LowCode.Comparer.Compare",
+    "Aspose.Words.LowCode.Comparer.Compare",
+    "Aspose.Words.LowCode.Comparer.Compare",
+    "Aspose.Words.LowCode.Comparer.Compare",
+    "Aspose.Words.LowCode.Comparer.Compare",
+    "Aspose.Words.LowCode.Comparer.Compare",
+    "Aspose.Words.LowCode.Comparer.Compare",
+    "Aspose.Words.LowCode.Comparer.CompareToImages",
+    "Aspose.Words.LowCode.Comparer.CompareToImages",
+    "Aspose.Words.LowCode.Comparer.CompareToImages",
+    "Aspose.Words.LowCode.Comparer.CompareToImages",
+    "Aspose.Words.LowCode.Comparer.Create",
+    "Aspose.Words.LowCode.Comparer.Create"
+  ],
+  "status": "repaired",
+  "input_strategy": "generated_fixture_file",
+  "input_files": [
+    "input.docx"
+  ]
+}

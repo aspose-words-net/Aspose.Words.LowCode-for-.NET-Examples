@@ -1,0 +1,30 @@
+{
+  "scenario_id": "words-merger",
+  "package_id": "Aspose.Words",
+  "package_version": "26.5.0",
+  "target_framework": "net8.0",
+  "claimed_symbols": [
+    "Aspose.Words.LowCode.Merger",
+    "Aspose.Words.LowCode.Merger.Create",
+    "Aspose.Words.LowCode.Merger.Create",
+    "Aspose.Words.LowCode.Merger.Merge",
+    "Aspose.Words.LowCode.Merger.Merge",
+    "Aspose.Words.LowCode.Merger.Merge",
+    "Aspose.Words.LowCode.Merger.Merge",
+    "Aspose.Words.LowCode.Merger.Merge",
+    "Aspose.Words.LowCode.Merger.Merge",
+    "Aspose.Words.LowCode.Merger.Merge",
+    "Aspose.Words.LowCode.Merger.Merge",
+    "Aspose.Words.LowCode.Merger.Merge",
+    "Aspose.Words.LowCode.Merger.Merge",
+    "Aspose.Words.LowCode.Merger.Merge",
+    "Aspose.Words.LowCode.Merger.Merge",
+    "Aspose.Words.LowCode.Merger.MergeToImages",
+    "Aspose.Words.LowCode.Merger.MergeToImages"
+  ],
+  "status": "repaired",
+  "input_strategy": "generated_fixture_file",
+  "input_files": [
+    "input.docx"
+  ]
+}
