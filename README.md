@@ -15,7 +15,7 @@ pipeline, validated through dotnet build + runtime execution + output verificati
 here as a repeatable reference.
 
 
-**Controlled pilot scope:** This repository covers Converter, Watermarker, Splitter, Replacer, Merger, Comparer, MailMerger operations.
+**Controlled pilot scope:** This repository covers Converter, Watermarker, Splitter, Replacer, Merger, Comparer, MailMerger, ReportBuilder operations.
 Broader generation requires resolving open follow-up taskcards first.
 
 
@@ -25,13 +25,7 @@ Broader generation requires resolving open follow-up taskcards first.
 
 | Example | Demonstrated API | Input | Output | Run |
 |---------|-----------------|-------|--------|-----|
-| `comparer` | `Comparer.Compare` | `2x docx` | `docx` | `dotnet run --project examples/words/lowcode/comparer` |
-| `converter` | `Converter.Convert` | `docx` | `pdf` | `dotnet run --project examples/words/lowcode/converter` |
-| `mail-merger` | `MailMerger.Create` | `2x docx` | `docx` | `dotnet run --project examples/words/lowcode/mail-merger` |
-| `merger` | `Merger.Create` | `2x docx` | `docx` | `dotnet run --project examples/words/lowcode/merger` |
-| `replacer` | `Replacer.Replace` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/replacer` |
-| `splitter` | `Splitter.ExtractPages` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/splitter` |
-| `watermarker` | `Watermarker.SetText` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/watermarker` |
+| `report-builder` | `ReportBuilder.BuildReport` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/report-builder` |
 
 
 ---
@@ -92,7 +86,7 @@ These examples are validated by the pipeline before publishing:
 | Example reviewer gate | PASS |
 | Gate verdict | `PR_DRY_RUN_READY` |
 
-Generated on: 2026-05-13 15:29 UTC
+Generated on: 2026-05-14 06:00 UTC
 
 ---
 
@@ -103,13 +97,7 @@ Aspose.Words.LowCode-for-.NET-Examples/
 ├── examples/
 │   └── words/
 │       └── lowcode/
-│           ├── comparer/
-│           ├── converter/
-│           ├── mail-merger/
-│           ├── merger/
-│           ├── replacer/
-│           ├── splitter/
-│           ├── watermarker/
+│           ├── report-builder/
 │               └── Program.cs
 ├── Directory.Build.props
 ├── Directory.Packages.props
