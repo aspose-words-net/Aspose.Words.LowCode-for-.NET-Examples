@@ -25,7 +25,14 @@ Broader generation requires resolving open follow-up taskcards first.
 
 | Example | Demonstrated API | Input | Output | Run |
 |---------|-----------------|-------|--------|-----|
+| `comparer` | `Comparer.Compare` | `docx`, `docx` | `docx` | `dotnet run --project examples/words/lowcode/comparer` |
+| `converter` | `Converter.Convert` | `docx` | `pdf` | `dotnet run --project examples/words/lowcode/converter` |
+| `mail-merger` | `MailMerger.Execute` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/mail-merger` |
+| `merger` | `Merger.Merge` | `docx`, `docx` | `docx` | `dotnet run --project examples/words/lowcode/merger` |
+| `replacer` | `Replacer.Replace` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/replacer` |
 | `report-builder` | `ReportBuilder.BuildReport` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/report-builder` |
+| `splitter` | `Splitter.ExtractPages` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/splitter` |
+| `watermarker` | `Watermarker.SetText` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/watermarker` |
 
 
 ---
@@ -97,7 +104,21 @@ Aspose.Words.LowCode-for-.NET-Examples/
 ├── examples/
 │   └── words/
 │       └── lowcode/
+│           ├── comparer/
+│           │   └── Program.cs
+│           ├── converter/
+│           │   └── Program.cs
+│           ├── mail-merger/
+│           │   └── Program.cs
+│           ├── merger/
+│           │   └── Program.cs
+│           ├── replacer/
+│           │   └── Program.cs
 │           ├── report-builder/
+│           │   └── Program.cs
+│           ├── splitter/
+│           │   └── Program.cs
+│           └── watermarker/
 │               └── Program.cs
 ├── Directory.Build.props
 ├── Directory.Packages.props
