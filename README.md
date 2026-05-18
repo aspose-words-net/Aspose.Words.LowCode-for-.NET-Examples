@@ -27,8 +27,8 @@ Broader generation requires resolving open follow-up taskcards first.
 |---------|-----------------|-------|--------|-----|
 | `comparer` | `Comparer.Compare` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/comparer` |
 | `converter` | `Converter.Convert` | `docx` | `pdf` | `dotnet run --project examples/words/lowcode/converter` |
-| `mail-merger` | `MailMerger.Create` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/mail-merger` |
-| `merger` | `Merger.Create` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/merger` |
+| `mail-merger` | `MailMerger.Execute` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/mail-merger` |
+| `merger` | `Merger.Merge` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/merger` |
 | `replacer` | `Replacer.Replace` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/replacer` |
 | `report-builder` | `ReportBuilder.BuildReport` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/report-builder` |
 | `splitter` | `Splitter.ExtractPages` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/splitter` |
@@ -536,7 +536,7 @@ These examples are validated by the pipeline before publishing:
 | Example reviewer gate | PASS |
 | Gate verdict | `PR_DRY_RUN_READY` |
 
-Generated on: 2026-05-18 10:00 UTC
+Generated on: 2026-05-18 11:28 UTC
 
 ---
 
