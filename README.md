@@ -25,14 +25,457 @@ Broader generation requires resolving open follow-up taskcards first.
 
 | Example | Demonstrated API | Input | Output | Run |
 |---------|-----------------|-------|--------|-----|
-| `comparer` | `Comparer.Compare` | `docx`, `docx` | `docx` | `dotnet run --project examples/words/lowcode/comparer` |
+| `comparer` | `Comparer.Compare` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/comparer` |
 | `converter` | `Converter.Convert` | `docx` | `pdf` | `dotnet run --project examples/words/lowcode/converter` |
-| `mail-merger` | `MailMerger.Execute` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/mail-merger` |
-| `merger` | `Merger.Merge` | `docx`, `docx` | `docx` | `dotnet run --project examples/words/lowcode/merger` |
+| `mail-merger` | `MailMerger.Create` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/mail-merger` |
+| `merger` | `Merger.Create` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/merger` |
 | `replacer` | `Replacer.Replace` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/replacer` |
 | `report-builder` | `ReportBuilder.BuildReport` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/report-builder` |
 | `splitter` | `Splitter.ExtractPages` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/splitter` |
 | `watermarker` | `Watermarker.SetText` | `docx` | `docx` | `dotnet run --project examples/words/lowcode/watermarker` |
+
+
+
+
+---
+
+## Source Code
+
+
+
+<details>
+<summary><code>comparer/Program.cs</code></summary>
+
+```csharp
+using System;
+using System.IO;
+using Aspose.Words;
+using Aspose.Words.LowCode;
+
+class Program
+{
+    static void Main()
+    {
+        // Prepare two input DOCX files with different content.
+        string baseDir = AppContext.BaseDirectory;
+        string inputPath1 = Path.Combine(baseDir, "input1.docx");
+        string inputPath2 = Path.Combine(baseDir, "input2.docx");
+        CreateSampleDoc(inputPath1, "First document content");
+        CreateSampleDoc(inputPath2, "Second document content");
+
+        // Validate that both input files exist.
+        if (!File.Exists(inputPath1))
+            throw new FileNotFoundException("Input file 1 not found.", inputPath1);
+        if (!File.Exists(inputPath2))
+            throw new FileNotFoundException("Input file 2 not found.", inputPath2);
+
+        // Define the output document path.
+        string outputPath = Path.Combine(baseDir, "output.docx");
+
+        // Call the static Compare method (simplest string‑path overload).
+        Comparer.Compare(
+            v1: inputPath1,
+            v2: inputPath2,
+            outputFileName: outputPath,
+            author: "Demo Author",
+            dateTime: DateTime.UtcNow);
+
+        // Verify that the output file was created.
+        if (!File.Exists(outputPath))
+            throw new InvalidOperationException("Output file was not created.");
+
+        var info = new FileInfo(outputPath);
+        Console.WriteLine($"Comparison completed successfully. Output: {outputPath} ({info.Length} bytes)");
+    }
+
+    private static void CreateSampleDoc(string path, string text)
+    {
+        var doc = new Document();
+        var builder = new DocumentBuilder(doc);
+        builder.Writeln(text);
+        doc.Save(path);
+    }
+}
+```
+
+</details>
+
+
+
+
+<details>
+<summary><code>converter/Program.cs</code></summary>
+
+```csharp
+using System;
+using System.IO;
+using Aspose.Words;
+using Aspose.Words.LowCode;
+
+string inputPath = Path.Combine(Path.GetTempPath(), "input.docx");
+string outputPath = Path.Combine(Path.GetTempPath(), "output.pdf");
+
+// Create a simple DOCX file
+var document = new Document();
+var builder = new DocumentBuilder(document);
+builder.Writeln("Hello, Aspose.Words!");
+document.Save(inputPath);
+
+// Validate the input file exists and is non‑empty
+if (!File.Exists(inputPath) || new FileInfo(inputPath).Length == 0)
+{
+    throw new InvalidOperationException("Failed to create the input DOCX file.");
+}
+
+// Convert DOCX to PDF using the simplest overload
+Converter.Convert(inputPath, outputPath);
+
+// Validate the output file exists and is non‑empty
+if (!File.Exists(outputPath) || new FileInfo(outputPath).Length == 0)
+{
+    throw new InvalidOperationException("Conversion failed; output PDF was not created.");
+}
+
+// Deterministic success message
+Console.WriteLine($"Conversion succeeded: {outputPath}");
+
+```
+
+</details>
+
+
+
+
+<details>
+<summary><code>mail-merger/Program.cs</code></summary>
+
+```csharp
+using System;
+using System.IO;
+using Aspose.Words;
+using Aspose.Words.LowCode;
+
+class Program
+{
+    static void Main()
+    {
+        // Paths for the template and the result document
+        string templatePath = Path.Combine(AppContext.BaseDirectory, "template.docx");
+        string resultPath = Path.Combine(AppContext.BaseDirectory, "result.docx");
+
+        // Ensure any previous files are removed
+        if (File.Exists(templatePath)) File.Delete(templatePath);
+        if (File.Exists(resultPath)) File.Delete(resultPath);
+
+        // Create a simple template with MERGEFIELD fields
+        Document templateDoc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(templateDoc);
+        builder.Writeln("Dear ");
+        builder.InsertField("MERGEFIELD FirstName");
+        builder.Write(" ");
+        builder.InsertField("MERGEFIELD LastName");
+        builder.Writeln(",");
+        builder.Writeln("This is a test merge.");
+        templateDoc.Save(templatePath);
+
+        // Validate that the template was created
+        if (!File.Exists(templatePath))
+            throw new FileNotFoundException("Template file was not created.", templatePath);
+
+        // Define merge field names and values
+        string[] fieldNames = { "FirstName", "LastName" };
+        string[] fieldValues = { "John", "Doe" };
+
+        // Perform the mail merge using the LowCode static method
+        MailMerger.Execute(templatePath, resultPath, fieldNames, fieldValues);
+
+        // Verify that the result file was created
+        if (!File.Exists(resultPath))
+            throw new InvalidOperationException("Result file was not created.");
+
+        // Deterministic success output
+        Console.WriteLine($"Merge completed successfully. Output: {resultPath} ({new FileInfo(resultPath).Length} bytes)");
+    }
+}
+```
+
+</details>
+
+
+
+
+<details>
+<summary><code>merger/Program.cs</code></summary>
+
+```csharp
+using System;
+using System.IO;
+using Aspose.Words;
+using Aspose.Words.LowCode;
+
+class Program
+{
+    static void Main()
+    {
+        // Define file paths
+        string baseDir = AppContext.BaseDirectory;
+        string inputPath1 = Path.Combine(baseDir, "input1.docx");
+        string inputPath2 = Path.Combine(baseDir, "input2.docx");
+        string outputPath = Path.Combine(baseDir, "output.docx");
+
+        // Create first input DOCX file
+        var doc1 = new Document();
+        var builder1 = new DocumentBuilder(doc1);
+        builder1.Writeln("This is the first document.");
+        doc1.Save(inputPath1);
+
+        // Create second input DOCX file
+        var doc2 = new Document();
+        var builder2 = new DocumentBuilder(doc2);
+        builder2.Writeln("This is the second document.");
+        doc2.Save(inputPath2);
+
+        // Validate that both input files exist
+        if (!File.Exists(inputPath1) || !File.Exists(inputPath2))
+            throw new FileNotFoundException("One or more input files were not found.");
+
+        // Ensure a clean output state
+        if (File.Exists(outputPath))
+            File.Delete(outputPath);
+
+        // Merge the documents using the static Merger.Merge method
+        Merger.Merge(outputPath, new[] { inputPath1, inputPath2 });
+
+        // Verify that the output file was created
+        if (File.Exists(outputPath))
+            Console.WriteLine($"Success: {outputPath} ({new FileInfo(outputPath).Length} bytes)");
+        else
+            throw new InvalidOperationException("Output file was not created.");
+    }
+}
+```
+
+</details>
+
+
+
+
+<details>
+<summary><code>replacer/Program.cs</code></summary>
+
+```csharp
+using System;
+using System.IO;
+using Aspose.Words;
+using Aspose.Words.LowCode;
+
+class Program
+{
+    static void Main()
+    {
+        // Prepare temporary folder
+        string tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        Directory.CreateDirectory(tempDir);
+
+        // Define file paths
+        string inputPath = Path.Combine(tempDir, "input.docx");
+        string outputPath = Path.Combine(tempDir, "output.docx");
+
+        // Create a simple Word document programmatically
+        var doc = new Document();
+        var builder = new DocumentBuilder(doc);
+        builder.Writeln("This is a sample document with a placeholder token.");
+        doc.Save(inputPath);
+
+        // Validate input file exists and is non‑empty
+        if (!File.Exists(inputPath) || new FileInfo(inputPath).Length == 0)
+        {
+            Console.WriteLine("Failed to create input file.");
+            return;
+        }
+
+        // Perform replace operation using the simplest string‑path overload
+        string pattern = "placeholder";
+        string replacement = "world";
+        int result = Replacer.Replace(inputPath, outputPath, pattern, replacement);
+
+        // Validate the operation succeeded (non‑negative return) and output file exists
+        if (result < 0 || !File.Exists(outputPath) || new FileInfo(outputPath).Length == 0)
+        {
+            Console.WriteLine("Replace operation failed.");
+            return;
+        }
+
+        Console.WriteLine($"Replace succeeded (result={result}). Output file created at: {outputPath}");
+    }
+}
+
+```
+
+</details>
+
+
+
+
+<details>
+<summary><code>report-builder/Program.cs</code></summary>
+
+```csharp
+using System;
+using System.IO;
+using Aspose.Words;
+using Aspose.Words.LowCode;
+
+public class Person
+{
+    public string Name { get; set; }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Paths for the template and the generated report
+        string templatePath = Path.Combine(AppContext.BaseDirectory, "template.docx");
+        string outputPath = Path.Combine(AppContext.BaseDirectory, "report.docx");
+
+        // Create a simple template with a LINQ placeholder if it does not exist
+        if (!File.Exists(templatePath))
+        {
+            var doc = new Document();
+            var builder = new DocumentBuilder(doc);
+            builder.Writeln("Hello, <<[Name]>>!");
+            doc.Save(templatePath);
+        }
+
+        // Validate that the template file exists
+        if (!File.Exists(templatePath))
+            throw new FileNotFoundException("Template file not found.", templatePath);
+
+        // Prepare the data source
+        var person = new Person { Name = "John Doe" };
+
+        // Generate the report using the LowCode ReportBuilder static method
+        ReportBuilder.BuildReport(templatePath, outputPath, person);
+
+        // Validate that the report was created
+        if (!File.Exists(outputPath))
+            throw new InvalidOperationException("Report was not generated.");
+
+        var info = new FileInfo(outputPath);
+        Console.WriteLine($"Report generated successfully: {outputPath} ({info.Length} bytes)");
+    }
+}
+```
+
+</details>
+
+
+
+
+<details>
+<summary><code>splitter/Program.cs</code></summary>
+
+```csharp
+using System;
+using System.IO;
+using Aspose.Words;
+using Aspose.Words.LowCode;
+
+class Program
+{
+    static void Main()
+    {
+        // Prepare temporary file paths
+        string tempDir = Path.Combine(Path.GetTempPath(), "AsposeWordsLowCodeDemo");
+        Directory.CreateDirectory(tempDir);
+        string inputPath = Path.Combine(tempDir, "input.docx");
+        string outputPath = Path.Combine(tempDir, "output.docx");
+
+        // Create a simple multi‑page Word document
+        var doc = new Document();
+        var builder = new DocumentBuilder(doc);
+        builder.Writeln("First page content.");
+        builder.InsertBreak(BreakType.PageBreak);
+        builder.Writeln("Second page content.");
+        doc.Save(inputPath);
+
+        // Validate input file exists and is non‑empty
+        if (!File.Exists(inputPath) || new FileInfo(inputPath).Length == 0)
+            throw new InvalidOperationException("Input file was not created correctly.");
+
+        // Extract the first page using the simplest overload of ExtractPages
+        Splitter.ExtractPages(inputPath, outputPath, startPageIndex: 0, pageCount: 1);
+
+        // Validate output file exists and is non‑empty
+        if (!File.Exists(outputPath) || new FileInfo(outputPath).Length == 0)
+            throw new InvalidOperationException("Output file was not created correctly.");
+
+        Console.WriteLine($"ExtractPages succeeded: '{outputPath}'");
+    }
+}
+
+```
+
+</details>
+
+
+
+
+<details>
+<summary><code>watermarker/Program.cs</code></summary>
+
+```csharp
+using System;
+using System.IO;
+using Aspose.Words;
+using Aspose.Words.LowCode;
+
+class Program
+{
+    static void Main()
+    {
+        // Define temporary file paths
+        string inputPath = Path.Combine(Path.GetTempPath(), "input.docx");
+        string outputPath = Path.Combine(Path.GetTempPath(), "output.docx");
+
+        // Clean up any previous runs
+        if (File.Exists(inputPath)) File.Delete(inputPath);
+        if (File.Exists(outputPath)) File.Delete(outputPath);
+
+        // Create a simple Word document programmatically
+        var doc = new Document();
+        var builder = new DocumentBuilder(doc);
+        builder.Writeln("Sample document for Watermarker SetText demonstration.");
+        doc.Save(inputPath);
+
+        // Verify the input file exists and is non‑empty
+        if (!File.Exists(inputPath) || new FileInfo(inputPath).Length == 0)
+        {
+            Console.WriteLine("Failed to create the input document.");
+            return;
+        }
+
+        // Apply a text watermark using the simplest overload of Watermarker.SetText
+        Watermarker.SetText(inputPath, outputPath, "CONFIDENTIAL");
+
+        // Verify the output file exists and is non‑empty
+        if (File.Exists(outputPath) && new FileInfo(outputPath).Length > 0)
+        {
+            Console.WriteLine("Watermark applied successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Watermark application failed.");
+        }
+    }
+}
+
+```
+
+</details>
+
+
 
 
 ---
@@ -60,7 +503,7 @@ dotnet run --project examples/words/lowcode/<example-name>
 ```
 
 Each example is a self-contained .NET project. Running it produces an output file in the project
-directory (e.g., `output.pdf`, `output.xlsx`, `output.html`).
+directory (e.g., `output.docx`, `output.pdf`).
 
 ---
 
@@ -93,7 +536,7 @@ These examples are validated by the pipeline before publishing:
 | Example reviewer gate | PASS |
 | Gate verdict | `PR_DRY_RUN_READY` |
 
-Generated on: 2026-05-14 06:00 UTC
+Generated on: 2026-05-18 10:00 UTC
 
 ---
 
@@ -105,20 +548,13 @@ Aspose.Words.LowCode-for-.NET-Examples/
 │   └── words/
 │       └── lowcode/
 │           ├── comparer/
-│           │   └── Program.cs
 │           ├── converter/
-│           │   └── Program.cs
 │           ├── mail-merger/
-│           │   └── Program.cs
 │           ├── merger/
-│           │   └── Program.cs
 │           ├── replacer/
-│           │   └── Program.cs
 │           ├── report-builder/
-│           │   └── Program.cs
 │           ├── splitter/
-│           │   └── Program.cs
-│           └── watermarker/
+│           ├── watermarker/
 │               └── Program.cs
 ├── Directory.Build.props
 ├── Directory.Packages.props
