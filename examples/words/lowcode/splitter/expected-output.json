@@ -1,6 +1,6 @@
 {
   "must_contain": [
-    "ExtractPages succeeded"
+    "Example: words-splitter"
   ],
   "must_not_contain": [
     "Unhandled exception",
@@ -9,11 +9,16 @@
     "Console.ReadLine"
   ],
   "has_output": true,
-  "input_dependencies": [],
+  "input_dependencies": [
+    "input.docx"
+  ],
   "forbidden_code_patterns": [
     "Console.ReadKey(",
     "Console.ReadLine(",
     "TODO",
     "NotImplementedException"
-  ]
+  ],
+  "expected_output_extension": ".docx",
+  "expected_output_kind": "file",
+  "expected_output_cardinality": "multi"
 }

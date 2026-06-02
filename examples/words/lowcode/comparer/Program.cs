@@ -3,47 +3,33 @@ using System.IO;
 using Aspose.Words;
 using Aspose.Words.LowCode;
 
-class Program
+namespace PluginExample
 {
-    static void Main()
+    class Program
     {
-        // Prepare two input DOCX files with different content.
-        string baseDir = AppContext.BaseDirectory;
-        string inputPath1 = Path.Combine(baseDir, "input1.docx");
-        string inputPath2 = Path.Combine(baseDir, "input2.docx");
-        CreateSampleDoc(inputPath1, "First document content");
-        CreateSampleDoc(inputPath2, "Second document content");
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Example: words-comparer");
 
-        // Validate that both input files exist.
-        if (!File.Exists(inputPath1))
-            throw new FileNotFoundException("Input file 1 not found.", inputPath1);
-        if (!File.Exists(inputPath2))
-            throw new FileNotFoundException("Input file 2 not found.", inputPath2);
+            string v1Path = "input_v1.docx";
+            string v2Path = "input_v2.docx";
 
-        // Define the output document path.
-        string outputPath = Path.Combine(baseDir, "output.docx");
+            var doc1 = new Document();
+            var builder1 = new DocumentBuilder(doc1);
+            builder1.Writeln("This is version 1 of the document.");
+            doc1.Save(v1Path);
 
-        // Call the static Compare method (simplest string‑path overload).
-        Comparer.Compare(
-            v1: inputPath1,
-            v2: inputPath2,
-            outputFileName: outputPath,
-            author: "Demo Author",
-            dateTime: DateTime.UtcNow);
+            var doc2 = new Document();
+            var builder2 = new DocumentBuilder(doc2);
+            builder2.Writeln("This is version 2 of the document with changes.");
+            doc2.Save(v2Path);
 
-        // Verify that the output file was created.
-        if (!File.Exists(outputPath))
-            throw new InvalidOperationException("Output file was not created.");
+            string outputPath = "output.docx";
+            Comparer.Compare(v1Path, v2Path, outputPath, "Author", DateTime.UtcNow);
 
-        var info = new FileInfo(outputPath);
-        Console.WriteLine($"Comparison completed successfully. Output: {outputPath} ({info.Length} bytes)");
-    }
-
-    private static void CreateSampleDoc(string path, string text)
-    {
-        var doc = new Document();
-        var builder = new DocumentBuilder(doc);
-        builder.Writeln(text);
-        doc.Save(path);
+            Console.WriteLine(File.Exists(outputPath)
+                ? $"Comparison succeeded: {outputPath}"
+                : "Comparison failed: output not found.");
+        }
     }
 }
