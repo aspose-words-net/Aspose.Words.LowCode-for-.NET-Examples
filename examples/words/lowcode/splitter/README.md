@@ -4,7 +4,7 @@ Auto-generated example for **Aspose.Words** (net8.0).
 
 ## API Symbols Used
 
-`Aspose.Words.LowCode.Splitter`, `Aspose.Words.LowCode.Splitter.ExtractPages`
+`Aspose.Words.LowCode.Splitter`, `Aspose.Words.LowCode.Splitter.Create`, `Aspose.Words.LowCode.Splitter.ExtractPages`, `Aspose.Words.LowCode.Splitter.ExtractPages`, `Aspose.Words.LowCode.Splitter.ExtractPages`
 
 ## Run
 

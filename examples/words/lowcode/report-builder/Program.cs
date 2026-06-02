@@ -3,43 +3,34 @@ using System.IO;
 using Aspose.Words;
 using Aspose.Words.LowCode;
 
-public class Person
+namespace PluginExample
 {
-    public string Name { get; set; }
-}
-
-class Program
-{
-    static void Main()
+    class Program
     {
-        // Paths for the template and the generated report
-        string templatePath = Path.Combine(AppContext.BaseDirectory, "template.docx");
-        string outputPath = Path.Combine(AppContext.BaseDirectory, "report.docx");
-
-        // Create a simple template with a LINQ placeholder if it does not exist
-        if (!File.Exists(templatePath))
+        static void Main(string[] args)
         {
+            Console.WriteLine("Example: words-report-builder");
+
+            string templatePath = "template.docx";
             var doc = new Document();
             var builder = new DocumentBuilder(doc);
-            builder.Writeln("Hello, <<[Name]>>!");
+            builder.Writeln("Report: <<[Name]>>");
+            builder.Writeln("Value: <<[Value]>>");
             doc.Save(templatePath);
+
+            string outputPath = "output.docx";
+            var data = new ReportData { Name = "LowCode Report", Value = 42 };
+            ReportBuilder.BuildReport(templatePath, outputPath, data);
+
+            Console.WriteLine(File.Exists(outputPath)
+                ? $"Report built: {outputPath}"
+                : "Report build failed: output not found.");
         }
+    }
 
-        // Validate that the template file exists
-        if (!File.Exists(templatePath))
-            throw new FileNotFoundException("Template file not found.", templatePath);
-
-        // Prepare the data source
-        var person = new Person { Name = "John Doe" };
-
-        // Generate the report using the LowCode ReportBuilder static method
-        ReportBuilder.BuildReport(templatePath, outputPath, person);
-
-        // Validate that the report was created
-        if (!File.Exists(outputPath))
-            throw new InvalidOperationException("Report was not generated.");
-
-        var info = new FileInfo(outputPath);
-        Console.WriteLine($"Report generated successfully: {outputPath} ({info.Length} bytes)");
+    public class ReportData
+    {
+        public string Name { get; set; }
+        public int Value { get; set; }
     }
 }

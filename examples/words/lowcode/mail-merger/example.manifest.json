@@ -48,9 +48,20 @@
     "Aspose.Words.LowCode.MailMerger.ExecuteWithRegionsToImages",
     "Aspose.Words.LowCode.MailMerger.ExecuteWithRegionsToImages"
   ],
-  "status": "repaired",
+  "status": "generated_template_first",
   "input_strategy": "generated_fixture_file",
   "input_files": [
     "input.docx"
-  ]
+  ],
+  "input_format": ".docx",
+  "output_format": ".docx",
+  "operation_kind": "merger",
+  "expected_output_extension": ".docx",
+  "contract_input_format": ".docx",
+  "contract_output_format": ".docx",
+  "contract_operation_kind": "processor",
+  "contract_output_kind": "file",
+  "contract_output_cardinality": "single",
+  "contract_id": "words/MailMerger",
+  "contract_hash": "c0178e50f08f113a"
 }

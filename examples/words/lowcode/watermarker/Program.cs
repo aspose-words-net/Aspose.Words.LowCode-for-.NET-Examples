@@ -1,44 +1,32 @@
 using System;
 using System.IO;
-using Aspose.Words;
 using Aspose.Words.LowCode;
 
-class Program
+namespace PluginExample
 {
-    static void Main()
+    class Program
     {
-        // Define temporary file paths
-        string inputPath = Path.Combine(Path.GetTempPath(), "input.docx");
-        string outputPath = Path.Combine(Path.GetTempPath(), "output.docx");
-
-        // Clean up any previous runs
-        if (File.Exists(inputPath)) File.Delete(inputPath);
-        if (File.Exists(outputPath)) File.Delete(outputPath);
-
-        // Create a simple Word document programmatically
-        var doc = new Document();
-        var builder = new DocumentBuilder(doc);
-        builder.Writeln("Sample document for Watermarker SetText demonstration.");
-        doc.Save(inputPath);
-
-        // Verify the input file exists and is non‑empty
-        if (!File.Exists(inputPath) || new FileInfo(inputPath).Length == 0)
+        static void Main(string[] args)
         {
-            Console.WriteLine("Failed to create the input document.");
-            return;
-        }
+            Console.WriteLine("Example: words-watermarker");
 
-        // Apply a text watermark using the simplest overload of Watermarker.SetText
-        Watermarker.SetText(inputPath, outputPath, "CONFIDENTIAL");
+            string inputPath = Path.Combine(AppContext.BaseDirectory, "input.docx");
 
-        // Verify the output file exists and is non‑empty
-        if (File.Exists(outputPath) && new FileInfo(outputPath).Length > 0)
-        {
-            Console.WriteLine("Watermark applied successfully.");
-        }
-        else
-        {
-            Console.WriteLine("Watermark application failed.");
+            Watermarker.SetText(inputPath, "output_text_watermark.docx", "Confidential");
+
+            string imagePath = Path.Combine(AppContext.BaseDirectory, "watermark.bmp");
+            byte[] bmpBytes = new byte[] {
+                0x42, 0x4D, 0x3A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x36, 0x00,
+                0x00, 0x00, 0x28, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00,
+                0x00, 0x00, 0x01, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0xFF, 0x00, 0x00, 0x00
+            };
+            File.WriteAllBytes(imagePath, bmpBytes);
+            Watermarker.SetImage(inputPath, "output_image_watermark.docx", imagePath);
+
+            Console.WriteLine("Done.");
         }
     }
 }

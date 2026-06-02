@@ -1,6 +1,6 @@
 {
   "must_contain": [
-    "Example: words-converter"
+    "Example: words-signer"
   ],
   "must_not_contain": [
     "Unhandled exception",
@@ -18,7 +18,7 @@
     "TODO",
     "NotImplementedException"
   ],
-  "expected_output_extension": ".pdf",
+  "expected_output_extension": ".docx",
   "expected_output_kind": "file",
   "expected_output_cardinality": "single"
 }
