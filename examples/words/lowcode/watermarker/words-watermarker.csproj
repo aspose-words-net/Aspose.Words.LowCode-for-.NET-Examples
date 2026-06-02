@@ -11,4 +11,10 @@
     <PackageReference Include="Aspose.Words" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Include="input.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
